@@ -1,6 +1,6 @@
 # RecourseInterviewProject
 
-Project as part of the interview process at Recourse.
+Assigned project as part of the interview process at Recourse.
 
 Written in Typescript and Vanilla JS. 
 
