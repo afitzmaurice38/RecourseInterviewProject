@@ -1,4 +1,4 @@
-# RecourseInterviewProject
+# InterviewProject
 
 Assigned project as part of the interview process at Recourse.
 
