@@ -3,6 +3,8 @@ interface spaces {
   [key: string]: string | null;
 }
 
+type resetFn = () => void;
+
 /*********Game Logic************/
 
 //Inital Scores
@@ -111,6 +113,27 @@ const gameController = (function controller(playable) {
     return false;
   }
 
+  function movesLeft() {
+    for (let key of Object.keys(spaces)) {
+      if (spaces[key] === null) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function displayModal(htmlMessage: string, resetFn: resetFn) {
+    const backdrop = document.createElement("div");
+    const modal = document.createElement("div");
+    modal.setAttribute("id", "modal");
+    backdrop.setAttribute("id", "backdrop");
+    modal.innerHTML = htmlMessage;
+    backdrop.appendChild(modal);
+    let target = document.getElementById("root");
+    document.getElementById("positioner")!.insertBefore(backdrop, target);
+    document.getElementById("playagain")!.addEventListener("click", resetFn);
+  }
+
   return {
     makeMove: function makeMove(e: Event) {
       const clickedSpaceId = (<HTMLDivElement>e.target).id;
@@ -141,19 +164,21 @@ const gameController = (function controller(playable) {
           }
 
           // Display Modal
-          const backdrop = document.createElement("div");
-          const modal = document.createElement("div");
-          modal.setAttribute("id", "modal");
-          backdrop.setAttribute("id", "backdrop");
-          modal.innerHTML = `<h1>Player ${winner} Wins!</h1>
+          displayModal(
+            `<h1>Player ${winner} Wins!</h1>
                     <h3>Would you like to play again?</h3>
-                   <button id="playagain"><span>Yes</span></button>`;
-          backdrop.appendChild(modal);
-          let target = document.getElementById("root");
-          document.getElementById("positioner")!.insertBefore(backdrop, target);
-          document
-            .getElementById("playagain")!
-            .addEventListener("click", this.resetGame.bind(this));
+                 <button id="playagain"><span>Yes</span></button>`,
+            this.resetGame.bind(this)
+          );
+        } else {
+          if (!movesLeft()) {
+            displayModal(
+              `<h1>It's a tie!</h1>
+            <h3>Would you like to play again?</h3>
+           <button id="playagain"><span>Yes</span></button>`,
+              this.resetGame.bind(this)
+            );
+          }
         }
       } else {
         console.log("try again");
