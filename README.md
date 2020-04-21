@@ -6,3 +6,9 @@ Written in Typescript and Vanilla JS.
 
 Transpiled via parcel. 
 
+
+# To Play
+npm install
+
+npm run dev
+
