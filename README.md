@@ -9,5 +9,6 @@ Transpiled via parcel.
 
 # To Play
 npm install
+
 npm run dev
 
